@@ -31,11 +31,11 @@ def bruteforce_pathfinding(grid_size, game_board, start_cell, end_cell):
         next_path_cells.clear()
         for cell in open_cells:
                 
-                print (f" current cell {cell.location}")
+                #print (f" current cell {cell.location}")
                 neighbor_cells = [game_board[cell.row-1][cell.col], game_board[cell.row][cell.col+1], game_board[cell.row+1][cell.col], game_board[cell.row][cell.col-1]]
                      
                 if cell in current_path_cells:
-                    print(f"target cell: {cell.location}")
+                   # print(f"target cell: {cell.location}")
                     current_path_cells.remove(cell)
                     for neighbor in neighbor_cells:
                         if neighbor is end_cell:
@@ -44,9 +44,9 @@ def bruteforce_pathfinding(grid_size, game_board, start_cell, end_cell):
                             return i
                         elif neighbor in open_cells and neighbor != cell.parent:
                             next_path_cells.append(neighbor)
-                            print (f"neighbor {neighbor.location}")
+                          #  print (f"neighbor {neighbor.location}")
                             neighbor.parent = cell
-                            print(f"parent: {neighbor.parent.location}")
+                         #  print(f"parent: {neighbor.parent.location}")
                         else:
                             continue 
                 else:
@@ -58,7 +58,7 @@ def bruteforce_pathfinding(grid_size, game_board, start_cell, end_cell):
     return False    
 
 def create_true_path(start_cell, end_cell):
-    print("start create true path")
+  #  print("start create true path")
     cell = end_cell
     path = [end_cell]
     for _ in range(100):  
@@ -85,6 +85,6 @@ def final_pathfinding(grid_size, game_board, start_cell, end_cell):
         return False
     else:
         path = create_true_path(start_cell, end_cell)
-        print(f"path {path}")
+     #   print(f"path {path}")
         reset_cells(grid_size, game_board)
     return path

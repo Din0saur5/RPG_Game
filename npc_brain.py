@@ -90,7 +90,7 @@ import random
 def tactics(tactics):
     #chooses what kind of movet the entity will make
     tactics_choices = ["melee", "long range", "midrange", "special"]
-    tactic = random.choices(tactics_choices,tactics)
+    tactic = random.choices(tactics_choices,weights=(tactics[0], tactics[1], tactics[2], tactics[3]))
     print(f"tactic {tactic}")
     return tactic
 
@@ -209,14 +209,16 @@ def in_range_check(npc, target, game_board, tactic, grid_size, abilities):
     else:
         return cells_inrange
     """
-def in_range_path(game_board, npc, target, grid_size):
+def in_range_path(game_board, npc, grid_size, in_range_cells):
     # if not in range determines best end cell in attack range for tactic and sets path to that cell
-    cells_inrange = in_range_check(npc, target, game_board)
+    print(in_range_cells)
     possible_paths = []
-    for cell in cells_inrange:
+    for cell in in_range_cells:
+        print(cell)
         possible_path = pathfinder_module.final_pathfinding(grid_size,game_board,game_board[npc.row][npc.col],cell )
         possible_paths.append(possible_path)
     possible_paths_sorted= sorted(possible_paths, key=lambda x: len(x))
+    print(len(possible_paths_sorted))
     move_path = possible_paths_sorted[0]
 
     return move_path

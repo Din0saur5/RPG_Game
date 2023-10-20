@@ -55,9 +55,9 @@ buffer1 = pygame.Surface((screen_width, screen_height))
 buffer2 = pygame.Surface((screen_width, screen_height))
 current_buffer = buffer1
 
-terminal_barO = pygame.image.load(r"C:\Users\danha\OneDrive\Desktop\programming\rpggame\potential-potato\placeholder graphics\terminal_box.png")
-terminal_font = pygame.font.Font(r"C:\Users\danha\OneDrive\Desktop\programming\rpggame\potential-potato\placeholder graphics\PR Viking.ttf", 18)
-terminal_font_outer = pygame.font.Font(r"C:\Users\danha\OneDrive\Desktop\programming\rpggame\potential-potato\placeholder graphics\PR Viking.ttf", 18)
+terminal_barO = pygame.image.load("./Graphics/terminal_box.png")
+terminal_font = pygame.font.Font("./Graphics/PR Viking.ttf", 18)
+terminal_font_outer = pygame.font.Font("./Graphics/PR Viking.ttf", 18)
 
 # list of all the things so the game mixer can make a random game
 all_the_things = []
@@ -725,8 +725,9 @@ def handle_enemy_turn(enemy):
     actionsleft = enemy.actions_left
     tactic = npc_brain.tactics(enemy.tactics)
     in_range_bool = npc_brain.in_range_check(enemy, player, game_board, tactic, grid_size, abilities)
-    if not in_range_bool:
-        path = npc_brain.in_range_path(game_board, enemy, player, grid_size)
+    print(in_range_bool)
+    if in_range_bool != True:
+        path = npc_brain.in_range_path(game_board, enemy, grid_size, in_range_bool)
         for cell in path: 
             if enemy.actions_left <=0:
                 return print("turn over")
