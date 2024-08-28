@@ -135,7 +135,7 @@ lightning_bolt = Ability("lightning bolt", grid_size, "lightning", 12, "graphic"
 abilities.append(lightning_bolt)
 drain = Ability("drain", 4,"necrotic",12,"graphic",False,2)
 abilities.append(drain)
-fear = Ability("fear", 2, "pychic", 0, "graphic", False, 1)
+fear = Ability("fear", 2, "psychic", 0, "graphic", False, 1)
 abilities.append(fear)
 heal = Ability("heal",0,0,"none","graphic",False,1)
 abilities.append(heal)
@@ -219,18 +219,18 @@ for _ in range(obnum):
     obstacles.append(obstacle_instance)
 
 def spawner(obstacles):
-   for obstacle in obstacles:
-        free_cells = []
-        for row in range(grid_size-3):
-            for col in range(grid_size-1):
-                if game_board[row][col].fill is None and game_board[row][col].location !=(0,0):
-                    free_cells.append(game_board[row][col].location)
+    free_cells = []
+    for row in range(grid_size-3):
+        for col in range(grid_size-1):
+            if game_board[row][col].fill == None and game_board[row][col].location !=(0,0):
+                free_cells.append(game_board[row][col].location)
+    for obstacle in obstacles:
         obobj = random.choice(free_cells)
+        free_cells.remove(obobj)
         obrow = obobj[0]
         obcol = obobj[1]
         game_board[obrow][obcol].fill = obstacle
-        free_cells.clear()
-        continue
+        
 # Player and enemy attributes
 class Player:
     def __init__(self,characterName):
@@ -265,7 +265,8 @@ class Cell:
         self.parent = None
         self.h_score = None
         
-
+    def __repr__(self):
+        return f"<Cell [{self.row}, {self.col}] fill: {self.fill}>"
 
 
 # Define the game board as a 2D array
@@ -417,7 +418,7 @@ def move_direction(entity, direction):
                 entity.actions_left -= 1 
                         
             else:
-                print("\nCannot move there.")    
+                print(f"\nCannot move there. {game_board[row - 1][col]}")    
         elif direction == "left":
             if open_cell(row, col- 1):
                 
@@ -427,7 +428,7 @@ def move_direction(entity, direction):
                 entity.actions_left -= 1
                            
             else:
-                print("\nCannot move there.")
+                print(f"\nCannot move there. {game_board[row][col-1]}") 
             
         elif direction == "back":
             if open_cell(row + 1, col):
@@ -437,7 +438,7 @@ def move_direction(entity, direction):
                 entity.actions_left -= 1
                 
             else:
-                print("\nCannot move there.")
+                print(f"\nCannot move there. {game_board[row +1][ col]}") 
             
         elif direction == "right":
             if open_cell(row, col+1):
@@ -448,7 +449,7 @@ def move_direction(entity, direction):
                 
                          
             else:
-                print("\nCannot move there.")     
+                print(f"\nCannot move there. {game_board[row][col+1]}")      
     else:
          print("\n" + entity.name + " can't move")   
     buffer_screen(current_buffer, player)
@@ -678,6 +679,8 @@ def determine_direction(target_row, target_col, enemy_row, enemy_col):
           position = "right"
      elif target_col<enemy_col and target_row == enemy_row:
           position = "left"
+     else:
+         position = "right"
      
      return position
 """
@@ -858,6 +861,7 @@ def main_loop():
             break
         else:        
             spawner(obstacles)
+            p=+1
             
     
     buffer_screen(current_buffer, player)
